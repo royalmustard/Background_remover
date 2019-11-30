@@ -1,5 +1,7 @@
 from PIL import Image
 import time
+import numpy as np
+import numpy.ma as ma
 
 class Converter:
 
@@ -22,22 +24,22 @@ class Converter:
         im = self.image
         width, height = self.image.size
         new_image = Image.new("RGBA", (width, height), color=self.bg_color)
+        if im.mode in ("L", "P", "RGBA"):
+            im = im.convert("RGB")
         start = time.time()
-        for x in range(width):
+        """for x in range(width):
             for y in range(height):
                 grey = gs.getpixel((x, y))
                 if im.mode in ("L", "P", "RGBA"):
                     im = im.convert("RGB")
                 r, g, b = im.getpixel((x, y))
                 if grey < 255 - th:
-                    new_image.putpixel((x, y), (r, g, b, 255))
-                #arr = np.array(gs)
-                #ima = np.array(im)
-                #print(ima[150][0][1])
-                #RGB = np.where(arr < 255 - th, ima, 0)
-                #A = np.where(arr < 255 - th, 255, 0)
-                #pixels = np.dstack((RGB, A))
-                #new_image = Image.fromarray(np.uint8(pixels))
+                    new_image.putpixel((x, y), (r, g, b, 255))"""
+        arr = np.array(gs)
+        RGB = np.array(im)
+        A = np.where(arr < 255 - th, 255, 0)
+        pixels = np.dstack((RGB, A))
+        new_image = Image.fromarray(np.uint8(pixels))
         end = time.time()
         print(end-start)
         self.final = new_image
