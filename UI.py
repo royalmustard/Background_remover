@@ -69,7 +69,7 @@ class UI:
 		self.conv.convert_image_to_png()
 
 		self.conv_image = self.conv.final
-		#width, height = self.conv_image.size
+		# width, height = self.conv_image.size
 		oi = Image.new("RGB", (300, 300), color=self.color)
 
 		conv_im = self.conv_image.resize((300, 300), Image.ANTIALIAS)
