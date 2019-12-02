@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter.colorchooser import askcolor
 from PIL import ImageTk, Image
+import numpy as np
 
 
 class UI:
@@ -70,14 +71,18 @@ class UI:
 
 		self.conv_image = self.conv.final
 		# width, height = self.conv_image.size
-		oi = Image.new("RGB", (300, 300), color=self.color)
+		oi = Image.new("RGBA", (300, 300), color=self.color)
 
 		conv_im = self.conv_image.resize((300, 300), Image.ANTIALIAS)
-		for x in range(300):
+		conv_im = np.array(conv_im)
+		print(conv_im)
+		oi = np.where(conv_im != [0,0,0,0], conv_im, self.color)
+		oi = Image.fromarray(np.uint8(oi))
+		"""for x in range(300):
 			for y in range(300):
 				r, g, b, a = conv_im.getpixel((x, y))
 				if a != 0:
-					oi.putpixel((x, y), (r, g, b))
+					oi.putpixel((x, y), (r, g, b))"""
 
 		self.out_image = oi
 		self.out_image = ImageTk.PhotoImage(self.out_image)
